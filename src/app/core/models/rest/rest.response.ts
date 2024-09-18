@@ -6,5 +6,5 @@ export interface RestResponse<T>{
     hasPrev?: boolean,
     hasNext?: boolean,
     results:T
-    statuts:number
+    status:number
 }

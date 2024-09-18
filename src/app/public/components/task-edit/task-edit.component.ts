@@ -2,31 +2,36 @@ import {Component, OnInit} from '@angular/core';
 import {RestResponse} from "../../../core/models/rest/rest.response";
 import {TaskCreate, TaskItem} from "../../../core/models/task.model";
 import {TaskServiceImpl} from "../../../core/services/impl/task.service.impl";
-import {Router} from "@angular/router";
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-task-add',
+  selector: 'app-task-edit',
   standalone: true,
   imports: [
     ReactiveFormsModule
   ],
-  templateUrl: './task-add.component.html',
-  styleUrl: './task-add.component.css'
+  templateUrl: './task-edit.component.html',
+  styleUrl: './task-edit.component.css'
 })
-export class TaskAddComponent implements OnInit{
+export class TaskEditComponent implements OnInit {
   response?: RestResponse<TaskItem>
+  temp?: string
   id?:string
   form?:any
   echec: String | null = null;
   success: String | null = null;
-  constructor(private taskService: TaskServiceImpl, private fb: FormBuilder, private router: Router) {}
+  constructor(private taskService: TaskServiceImpl, private route: ActivatedRoute,
+              private fb: FormBuilder, private router: Router) {}
 
 
   ngOnInit(): void {
     this.build();
+    this.id = this.route.snapshot.paramMap.get('id')?.toString();
+    if(this.id !== undefined && this.id !== null){
+      this.findSelectedTask(this.id)
+    }
   }
-
 
   build(){
     this.form=this.fb.group({
@@ -36,7 +41,13 @@ export class TaskAddComponent implements OnInit{
     })
   }
 
-  onSubmit(){
+  findSelectedTask(id: number | string) {
+    this.taskService.findById(id).subscribe(data => {
+      this.response = data;
+    })
+  }
+
+  onSubmit() {
     const { ...formData} = this.form.value;
     var task: TaskCreate ={title:formData.title!,description:formData.description!,etat:formData.etat!}
     this.taskService.create(task).subscribe((data) => {
@@ -53,6 +64,6 @@ export class TaskAddComponent implements OnInit{
       }else {
         this.echec = "Erreur d'enregistrement de la tâche. Code : "+data.status;
       }
-    })
+    });
   }
 }

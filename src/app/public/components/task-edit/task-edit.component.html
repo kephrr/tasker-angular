@@ -17,15 +17,16 @@
   <div>
     <input type="text" formControlName="title"
            class="border-gray-200 rounded-lg mx-auto my-5 w-2/3"
+           [value]="response===undefined?0:response?.results?.title"
            placeholder="Veuillez entrer un titre">
     <select formControlName="etat"
-            class="mx-5 w-30 h-10 rounded-lg px-4 border-gray-200" >
+    class="mx-5 w-30 h-10 rounded-lg px-4 border-gray-200" >
       <option value="0">Plannifié</option>
       <option value="1">En cours</option>
       <option value="2">Terminé</option>
     </select>
 
-    <a>
+    <a href="#">
       <button type="sumbit"  class="mx-5 bg-sky-500 hover:bg-sky-600 w-30 h-10 rounded-lg px-4 font-semibold text-white">Enregistrer</button>
     </a>
   </div>
@@ -43,6 +44,7 @@
   <textarea type="" formControlName="description"
             class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700
             w-full"
-            style="height:80vh;">
+            style="height:80vh;"
+            [value]="response===undefined?0:response?.results?.description">
     </textarea>
 </form>

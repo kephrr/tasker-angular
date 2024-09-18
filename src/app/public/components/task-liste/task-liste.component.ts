@@ -3,12 +3,14 @@ import { TaskItem } from '../../../core/models/task.model';
 import { RestResponse } from '../../../core/models/rest/rest.response';
 import { TaskServiceImpl } from '../../../core/services/impl/task.service.impl';
 import {FormsModule} from "@angular/forms";
+import {RouterLink} from "@angular/router";
+import {NgClass} from "@angular/common";
 
 
 @Component({
     selector: 'app-task-liste',
     standalone: true,
-    imports: [FormsModule],
+  imports: [FormsModule, NgClass],
     templateUrl: './task-liste.component.html',
     styleUrl: './task-liste.component.css'
 })
